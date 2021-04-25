@@ -12,7 +12,7 @@ class Siswa extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $table = 'siswa';
-    protected $guard = 'admin';
+    protected $guard = 'siswa';
     protected $fillable = [
         'name', 'email', 'password',
     ];
