@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('layouts.adminlte')
 
 @section('title', 'Petugas')
 
@@ -13,7 +13,7 @@
                 <div class="card-header">{{ __('Data Petugas') }}</div>
 
                 <div class="card-body">
-
+                    @include('flash::message')
                     <a href="{{route('register')}}" class="btn btn-primary mb-2">Tambah Petugas</a>
                     <div class="table-responsive">
                         <table class="table table-hover">

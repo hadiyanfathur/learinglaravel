@@ -45,9 +45,11 @@ class PembayaranController extends Controller
     public function store(Request $request)
     {
         $pembayaran = Pembayaran::create(array_merge($request->all() , ['user_id' => Auth::user()->id]));
-        if($pembayaran->save())
-            return redirect(url("/pembayaran"))->with(["message"=>"Success: Data berhasil disimpan"]);
-
+        if($pembayaran->save()){
+            flash('Success: Data berhasil disimpan')->success();
+            return redirect(url("/pembayaran"));
+        }
+        flash('Success: Data berhasil disimpan')->error();
         return redirect()->back()->with(["error"=>"Process Fail: Data gagal disimpan"]);
     }
 

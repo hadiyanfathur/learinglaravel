@@ -37,10 +37,12 @@ class SppController extends Controller
     public function store(Request $request)
     {
         $spp = Spp::create($request->all());
-        if($spp->save())
-            return redirect(url("/spp"))->with(["message"=>"Success: Data berhasil disimpan"]);
-
-        return redirect()->back()->with(["error"=>"Process Fail: Data gagal disimpan"]);
+        if($spp->save()){
+            flash('Success: Data berhasil disimpan')->success();
+            return redirect(url("/spp"));
+        }
+        flash('Process Fail: Data gagal disimpan')->error();
+        return redirect()->back();
     }
 
     /**
@@ -74,10 +76,12 @@ class SppController extends Controller
      */
     public function update(Request $request, spp $spp)
     {
-        if($spp->update($request->all()))
-            return redirect(url("/spp"))->with(["message"=>"Success: Data berhasil disimpan"]);
-
-        return redirect()->back()->with(["error"=>"Process Fail: Data gagal disimpan"]);
+        if($spp->update($request->all())){
+            flash('Success: Data berhasil disimpan')->success();
+            return redirect(url("/spp"));
+        }
+        flash('Process Fail: Data gagal disimpan')->error();
+        return redirect()->back();
     }
 
     /**
@@ -88,9 +92,12 @@ class SppController extends Controller
      */
     public function destroy(spp $spp)
     {
-        if ($spp->delete())
-            return redirect(url("/spp"))->with(["message"=>"Success: Data berhasil disimpan"]);
+        if ($spp->delete()){
+            flash('Success: Data berhasil dihapus')->success();
+            return redirect(url("/spp"));
+        }
 
-        return redirect(url("/spp"))->with(["message"=>"proccess fail: Data gagal disimpan"]);
+        flash('proccess fail: Data gagal dihapus')->error();
+        return redirect(url("/spp"));
     }
 }

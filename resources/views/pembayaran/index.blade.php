@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('layouts.adminlte')
 
 @section('title', 'Dashboard')
 
@@ -13,7 +13,7 @@
                 <div class="card-header">{{ __('Pembayaran') }}</div>
 
                 <div class="card-body">
-
+                    @include('flash::message')
                     <a href="{{route('pembayaran.create')}}" class="btn btn-primary mb-2">Tambah Pembayaran</a>
                     <div class="table-responsive">
                         <table class="table table-hover ">
@@ -40,12 +40,12 @@
                                         <td>{{ $bayar->jumlah_bayar }}</td>
                                         <td>{{ $bayar->user->name }}</td>
                                         <td>
-                                            <form method="POST" action="{{ route('pembayaran.destroy', ['pembayaran' => $bayar->id]) }}">
+                                            {{-- <form method="POST" action="{{ route('pembayaran.destroy', ['pembayaran' => $bayar->id]) }}">
                                                 @method('DELETE')
                                                 @csrf
                                             <a class="btn btn-warning" href="{{ route('pembayaran.update', ['pembayaran' => $bayar->id]) }}"><i class="fas fa-edit fa-md"></i></a>
                                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fas fa-trash fa-md"></i></button>
-                                            </form>
+                                            </form> --}}
                                         </td>
                                     </tr>
                                 @endforeach

@@ -18,6 +18,11 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/login/siswa', [App\Http\Controllers\Auth\LoginController::class, 'showSiswaLoginForm'])->name('loginForm.siswa');
+Route::post('/login/siswa', [App\Http\Controllers\Auth\LoginController::class, 'siswaLogin'])->name('login.siswa');
+Route::middleware(['auth:siswa'])->group(function () {
+    Route::get('/dashboard-siswa', [App\Http\Controllers\SiswaController::class, 'dashboard'])->name('siswa.home');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

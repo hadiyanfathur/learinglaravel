@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('layouts.adminlte')
 
 @section('title', 'Dashboard')
 
@@ -20,7 +20,7 @@
                             </div>
                         @endif
 
-                        {{ __('Selamat datang, ') . Auth::user()->name}}
+                        {{ __('Selamat datang, ') }}
                     </div>
                 </div>
             </div>

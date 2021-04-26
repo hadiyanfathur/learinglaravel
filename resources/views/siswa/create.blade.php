@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('layouts.adminlte')
 
 @section('title', 'Dashboard')
 
@@ -13,7 +13,7 @@
                 <div class="card-header">{{ __('Tambah Siswa') }}</div>
 
                 <div class="card-body">
-
+                    @include('flash::message')
                     <a href="{{route('siswa.index')}}" class="btn btn-warning mb-2">Kembali</a>
                     <button class="btn btn-primary mb-2" onclick="submitForm();">Simpan</button>
                     
@@ -23,6 +23,13 @@
                             <label for="nisn" class="col-md-2 col-form-label">NISN</label>
                             <div class="col-md-5">
                                 <input type="text" name="nisn" class="form-control" id="nisn" max="10" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="password" class="col-md-2 col-form-label">Password</label>
+                            <div class="col-md-5">
+                                <input type="password" name="password" class="form-control" id="password" min="6" required>
                             </div>
                         </div>
 
@@ -65,6 +72,7 @@
                                 <input type="text" name="telp" class="form-control" id="telp" required max="13">
                             </div>
                         </div>
+                        
                     </form>
                 </div>
             </div>

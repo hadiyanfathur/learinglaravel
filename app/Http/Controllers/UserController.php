@@ -26,12 +26,17 @@ class UserController extends Controller
      */
     public function destroy(User $petuga)
     {
-        if($petuga->level == 0)
-            return redirect(url("/petugas"))->with(["message"=>"proccess fail: Administrator tidak bisa dihapus"]);
+        if($petuga->level == 0){
+            flash('proccess fail: Administrator tidak bisa dihapus')->error();
+            return redirect(url("/petugas"));
+        }
 
-        if ($petuga->delete())
-            return redirect(url("/petugas"))->with(["message"=>"Success: Data berhasil disimpan"]);
+        if ($petuga->delete()){
+            flash('Success: Data berhasil dihapus')->success();
+            return redirect(url("/petugas"));
+        }
 
-        return redirect(url("/petugas"))->with(["message"=>"proccess fail: Data gagal disimpan"]);
+        flash('Success: Data berhasil dihapus')->error();
+        return redirect(url("/petugas"));
     }
 }

@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('layouts.adminlte')
 
 @section('title', 'Tambah SPP')
 
@@ -13,7 +13,7 @@
                 <div class="card-header">{{ __('Tambah SPP') }}</div>
 
                 <div class="card-body">
-
+                    @include('flash::message')
                     <a href="{{route('spp.index')}}" class="btn btn-warning mb-2">Kembal</a>
                     <button class="btn btn-primary mb-2" onclick="submitForm();">Simpan</button>
                     

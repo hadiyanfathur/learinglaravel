@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Siswa;
 use App\Models\Kelas;
+use App\Models\Pembayaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class SiswaController extends Controller
 {
@@ -38,11 +41,27 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        $siswa = Siswa::create($request->all());
-        if($siswa->save())
-            return redirect(url("/siswa"))->with(["message"=>"Success: Data berhasil disimpan"]);
+        $validated = $request->validate([
+            'nisn' => 'required|unique:siswa|max:10',
+            'password' => 'required|min:6',
+        ]);
 
-        return redirect()->back()->with(["error"=>"Process Fail: Data gagal disimpan"]);
+        $siswa = Siswa::create([
+            'nama' => $request->nama,
+            'nisn' => $request->nisn,
+            'nis' => $request->nis,
+            'kelas_id' => $request->kelas_id,
+            'alamat' => $request->alamat,
+            'telp' => $request->telp,
+            'password' => Hash::make($request->password),
+        ]);
+
+        if($siswa->save()){
+            flash('Success: Data berhasil disimpan')->success();
+            return redirect(url("/siswa"));
+        }
+        flash('Process Fail: Data gagal disimpan')->error();
+        return redirect()->back();
     }
 
     /**
@@ -78,10 +97,12 @@ class SiswaController extends Controller
     public function update(Request $request, Siswa $siswa)
     {
         $siswa = $siswa->update($request->all());
-        if($siswa)
-            return redirect(url("/siswa"))->with(["message"=>"Success: Data berhasil disimpan"]);
-
-        return redirect()->back()->with(["error"=>"Process Fail: Data gagal disimpan"]);
+        if($siswa){
+            flash('Success: Data berhasil disimpan')->success();
+            return redirect(url("/siswa"));
+        }
+        flash('Process Fail: Data gagal disimpan')->error();
+        return redirect()->back();
     }
 
     /**
@@ -92,9 +113,18 @@ class SiswaController extends Controller
      */
     public function destroy(Siswa $siswa)
     {
-        if ($siswa->delete())
-            return redirect(url("/siswa"))->with(["message"=>"Success: Data berhasil disimpan"]);
+        if ($siswa->delete()){
+            flash('Success: Data berhasil dihapus')->success();
+            return redirect(url("/siswa"));
+        }
+        flash('proccess fail: Data gagal dihapus')->error();
+        return redirect(url("/siswa"));
+    }
 
-        return redirect(url("/siswa"))->with(["message"=>"proccess fail: Data gagal disimpan"]);
+    public function dashboard()
+    {
+        $pembayaran = Pembayaran::where('siswa_id', Auth::user()->id)
+                        ->orderByDesc('tanggal')->get();
+        return view('siswa.home', ['pembayaran' => $pembayaran]);
     }
 }

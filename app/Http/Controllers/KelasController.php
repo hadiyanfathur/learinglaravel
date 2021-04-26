@@ -9,16 +9,6 @@ class KelasController extends Controller
 {
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -48,10 +38,12 @@ class KelasController extends Controller
     public function store(Request $request)
     {
         $kelas = Kelas::create($request->all());
-        if($kelas->save())
-            return redirect(url("/kelas"))->with(["message"=>"Success: Data berhasil disimpan"]);
-
-        return redirect()->back()->with(["error"=>"Process Fail: Data gagal disimpan"]);
+        if($kelas->save()){
+            flash('Success: Data berhasil disimpan')->success();
+            return redirect(url("/kelas"));
+        }
+        flash('Process Fail: Data gagal disimpan')->error();
+        return redirect()->back();
     }
 
     /**
@@ -87,10 +79,12 @@ class KelasController extends Controller
     public function update(Request $request, Kelas $kela)
     {
         $kela = $kela->update($request->all());
-        if($kela)
-            return redirect(url("/kelas"))->with(["message"=>"Success: Data berhasil disimpan"]);
-
-        return redirect()->back()->with(["error"=>"Process Fail: Data gagal disimpan"]);
+        if($kela){
+            flash('Success: Data berhasil disimpan')->success();
+            return redirect(url("/kelas"));
+        }
+        flash('Process Fail: Data gagal disimpan')->error();
+        return redirect()->back();
     }
 
     /**
@@ -101,9 +95,11 @@ class KelasController extends Controller
      */
     public function destroy(Kelas $kela)
     {
-        if ($kela->delete())
-            return redirect(url("/kelas"))->with(["message"=>"Success: Data berhasil disimpan"]);
-
-        return redirect(url("/kelas"))->with(["message"=>"proccess fail: Data gagal disimpan"]);
+        if ($kela->delete()){
+            flash('Success: Data berhasil dihapus')->success();
+            return redirect(url("/kelas"));
+        }
+        flash('Proccess fail: Data gagal dihapus')->error();
+        return redirect(url("/kelas"));
     }
 }

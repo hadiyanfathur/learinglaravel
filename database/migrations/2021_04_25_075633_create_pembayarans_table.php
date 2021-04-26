@@ -15,8 +15,14 @@ class CreatePembayaransTable extends Migration
     {
         Schema::create('pembayaran', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
-            $table->bigInteger('siswa_id');
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('siswa_id')
+                ->constrained('siswa')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->date('tanggal')->default(date('Y-m-d'));
             $table->bigInteger('spp_id');
             $table->integer('jumlah_bayar');

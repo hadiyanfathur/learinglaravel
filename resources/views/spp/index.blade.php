@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('layouts.adminlte')
 
 @section('title', 'SPP')
 
@@ -13,7 +13,7 @@
                 <div class="card-header">{{ __('Data SPP') }}</div>
 
                 <div class="card-body">
-
+                    @include('flash::message')
                     <a href="{{route('spp.create')}}" class="btn btn-primary mb-2">Tambah SPP</a>
                     <div class="table-responsive">
                         <table class="table table-hover">
